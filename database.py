@@ -61,7 +61,7 @@ def get_random_paper():
     conn = get_connection()
     try:
         row = conn.execute(
-            "SELECT * FROM papers WHERE abstract != '' ORDER BY RANDOM() LIMIT 1"
+            "SELECT * FROM papers ORDER BY RANDOM() LIMIT 1"
         ).fetchone()
         return dict(row) if row else None
     finally:
@@ -69,15 +69,15 @@ def get_random_paper():
 
 
 def get_random_paper_without_summary():
-    """요약이 없고 초록이 있는 논문 우선 반환"""
+    """요약이 없는 논문 우선, 없으면 아무 논문"""
     conn = get_connection()
     try:
         row = conn.execute(
-            "SELECT * FROM papers WHERE summary IS NULL AND abstract != '' ORDER BY RANDOM() LIMIT 1"
+            "SELECT * FROM papers WHERE summary IS NULL ORDER BY RANDOM() LIMIT 1"
         ).fetchone()
         if not row:
             row = conn.execute(
-                "SELECT * FROM papers WHERE abstract != '' ORDER BY RANDOM() LIMIT 1"
+                "SELECT * FROM papers ORDER BY RANDOM() LIMIT 1"
             ).fetchone()
         return dict(row) if row else None
     finally:
@@ -89,7 +89,7 @@ def get_random_paper_by_venue(venue: str):
     conn = get_connection()
     try:
         row = conn.execute(
-            "SELECT * FROM papers WHERE venue = ? AND abstract != '' ORDER BY RANDOM() LIMIT 1",
+            "SELECT * FROM papers WHERE venue = ? ORDER BY RANDOM() LIMIT 1",
             (venue,),
         ).fetchone()
         return dict(row) if row else None
@@ -102,7 +102,7 @@ def get_random_paper_by_publisher(publisher: str):
     conn = get_connection()
     try:
         row = conn.execute(
-            "SELECT * FROM papers WHERE publisher = ? AND abstract != '' ORDER BY RANDOM() LIMIT 1",
+            "SELECT * FROM papers WHERE publisher = ? ORDER BY RANDOM() LIMIT 1",
             (publisher,),
         ).fetchone()
         return dict(row) if row else None
