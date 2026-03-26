@@ -1,0 +1,16 @@
+# 보안 파일
+.env
+credentials.json
+token.json
+
+# DB
+*.db
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# 백업
+*_backup_*.db
